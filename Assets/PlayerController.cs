@@ -4,10 +4,25 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] float speed;
+
     void Update()
     {
-        var x = Input.GetAxis("Horizontal") * Time.deltaTime;
-        var y = Input.GetAxis("Vertical") * Time.deltaTime;
+        var x = Input.GetAxis("Horizontal") * Time.deltaTime*speed;
+        var y = Input.GetAxis("Vertical") * Time.deltaTime*speed;
         transform.position += new Vector3(x, 0, y);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            return;
+        }
+
+        Vector3 force = collision.gameObject.transform.position - transform.position;
+        force = force.normalized;
+        rb.AddForce(force * 1000);
     }
 }
