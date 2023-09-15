@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     [SerializeField] float speed;
+    [SerializeField] public int score;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Update()
     {

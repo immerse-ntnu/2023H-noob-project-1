@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 932044351480616939}
   - component: {fileID: 7184452059736105715}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: GoodCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,3 +146,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f08cf20fb4851c4ebebb36cd2fb3e44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  yThreshold: -10
+  pointsOnFall: 1
