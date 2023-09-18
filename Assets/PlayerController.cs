@@ -7,9 +7,10 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance;
 
     [SerializeField] float speed;
-    [SerializeField] public int score;
 
-    private void Awake()
+    [field: SerializeField] public int Score { get;  set; }
+
+    private void Start()
     {
         instance = this;
     }
@@ -32,5 +33,11 @@ public class PlayerController : MonoBehaviour
         Vector3 force = collision.gameObject.transform.position - transform.position;
         force = force.normalized;
         rb.AddForce(force * 1000);
+    }
+
+    public void AddScore(int pointsOnFall)
+    {
+        Score += pointsOnFall;
+        GameController.instance.OnUpdateScore(Score);
     }
 }

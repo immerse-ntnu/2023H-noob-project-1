@@ -7,18 +7,11 @@ public class CubeScript : MonoBehaviour
     [SerializeField] float yThreshold;
     [SerializeField] int pointsOnFall;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (transform.position.y < yThreshold)
         {
-            PlayerController.instance.score += pointsOnFall;
+            PlayerController.instance.AddScore(pointsOnFall);
             Destroy(gameObject);
         }
     }

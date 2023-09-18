@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnerScript : MonoBehaviour
@@ -10,18 +8,12 @@ public class SpawnerScript : MonoBehaviour
     [SerializeField] int goodCubesCount = 100;
     [SerializeField] int badCubesCount = 10;
 
-    // Start is called before the first frame update
     void Start()
     {
         SpawnCubes(goodCubePrefab, goodCubesCount);
         SpawnCubes(badCubePrefab, badCubesCount);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     void SpawnCubes(GameObject prefab, int count)
     {
         for (int i = 0; i < count; i++)

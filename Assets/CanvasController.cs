@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,15 @@ public class CanvasController : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI scoreField;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        scoreField.text = PlayerController.instance.score.ToString();
+        GameController.instance.UpdateScore += UpdateScore;
     }
+
+    private void UpdateScore(int score)
+    {
+        scoreField.text = score.ToString();
+    }
+
+
 }
