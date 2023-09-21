@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float speed;
 
-    [field: SerializeField] public int Score { get;  set; }
+    [field: SerializeField] public int Score { get; private set; }
 
     private void Start()
     {
