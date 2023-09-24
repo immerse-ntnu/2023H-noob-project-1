@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (!GameController.instance.Active)
+            return;
         var x = Input.GetAxis("Horizontal") * Time.deltaTime*speed;
         var y = Input.GetAxis("Vertical") * Time.deltaTime*speed;
         transform.position += new Vector3(x, 0, y);

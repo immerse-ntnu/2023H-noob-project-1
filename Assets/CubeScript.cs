@@ -1,17 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeScript : MonoBehaviour
 {
-    [SerializeField] float yThreshold;
     [SerializeField] int pointsOnFall;
+    private const float Y_THRESHOLD = -0.8f;
 
     void Update()
     {
-        if (transform.position.y < yThreshold)
+        if (transform.position.y < Y_THRESHOLD)
         {
-            PlayerController.instance.AddScore(pointsOnFall);
+            if (GameController.instance.Active)
+                PlayerController.instance.AddScore(pointsOnFall);
             Destroy(gameObject);
         }
     }
