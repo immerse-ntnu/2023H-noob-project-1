@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: pointsOnFall
       value: -10
       objectReference: {fileID: 0}
+    - target: {fileID: 7184452059736105715, guid: 5c6fb4def5da91a40897aac430079c79, type: 3}
+      propertyPath: <PointsOnFall>k__BackingField
+      value: -10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

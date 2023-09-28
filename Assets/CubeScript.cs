@@ -1,18 +1,12 @@
-using System.Collections;
 using UnityEngine;
 
 public class CubeScript : MonoBehaviour
 {
-    [SerializeField] int pointsOnFall;
-    private const float Y_THRESHOLD = -0.8f;
+    [field: SerializeField] public int PointsOnFall { get; private set; }
 
-    void Update()
+    private void Update()
     {
-        if (transform.position.y < Y_THRESHOLD)
-        {
-            if (GameController.instance.Active)
-                PlayerController.instance.AddScore(pointsOnFall);
+        if (transform.position.y < -50)
             Destroy(gameObject);
-        }
     }
 }
