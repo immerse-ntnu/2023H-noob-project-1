@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] float speed;
     private Rigidbody _rb;
+    private Vector3 dragStartPosition;
+    private Vector3 dragEndPosition;
 
     [field: SerializeField] public int Score { get; private set; }
 
@@ -17,15 +19,32 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
+    private static Vector3 MousePos => Camera.main.ScreenToWorldPoint(
+        new Vector3(Input.mousePosition.x, Input.mousePosition.y,
+            Camera.main.transform.position.y));
+
     void Update()
     {
         if (!GameController.instance.Active)
             return;
-        var x = Input.GetAxis("Horizontal") * speed;
-        var y = Input.GetAxis("Vertical") * speed;
-        _rb.velocity = speed * new Vector3(x, 0, y);
+            // Drag and drop shooting logic
+        if (Input.GetMouseButtonDown(0))
+            dragStartPosition = MousePos;
+        if (Input.GetMouseButtonUp(0))
+        {
+            dragEndPosition = MousePos;
+            Shoot();
+        }
     }
-
+    private void Shoot()
+    {
+        var shootDirection = dragStartPosition - dragEndPosition;
+        shootDirection.y = 0;
+        if (shootDirection.magnitude < 0.1f)
+            return;
+        _rb.AddForce(shootDirection * speed, ForceMode.Impulse);
+        GameController.instance.ChangeTurn();
+    }
     void OnCollisionEnter(Collision collision)
     {
         Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();

@@ -34,6 +34,11 @@ public class FartPower : MonoBehaviour
             return;
         if (currentCooldown > 0)
             return;
+        UsePower();
+    }
+
+    private void UsePower()
+    {
         _particleSystem.Play();
         _audioSources[Random.Range(0, _audioSources.Count)].Play();
         currentCooldown = cooldown;
@@ -47,5 +52,6 @@ public class FartPower : MonoBehaviour
                 rb.AddForce(force);
             }
         }
+        GameController.instance.ChangeTurn();
     }
 }
