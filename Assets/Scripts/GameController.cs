@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour
 
 	private IEnumerator WaitForMovingBalls()
 	{
-		var balls = FindObjectsOfType<CubeScript>();
+		var balls = GameObject.FindGameObjectsWithTag("Ball");
 		foreach (var ball in balls)
 		{
 			if (ball.GetComponent<Rigidbody>().velocity.magnitude > 0.1f)

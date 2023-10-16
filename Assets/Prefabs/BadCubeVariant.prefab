@@ -16,6 +16,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BadCubeVariant
       objectReference: {fileID: 0}
+    - target: {fileID: 2809694703569376084, guid: 5c6fb4def5da91a40897aac430079c79, type: 3}
+      propertyPath: m_TagString
+      value: Ball
+      objectReference: {fileID: 0}
     - target: {fileID: 4486409344020353932, guid: 5c6fb4def5da91a40897aac430079c79, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.51
