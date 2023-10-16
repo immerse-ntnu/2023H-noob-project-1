@@ -23,6 +23,10 @@ public class GameController : MonoBehaviour
     {
         // wait for 5 seconds
         yield return new WaitForSeconds(5f);
+        var balls = FindObjectsOfType<CubeScript>();
+        foreach (var ball in balls)
+	        if (ball.transform.position.y < -1)
+		        Destroy(ball.gameObject);
         Active = true;
     }
 
@@ -34,18 +38,33 @@ public class GameController : MonoBehaviour
 
 	private IEnumerator WaitForMovingBalls()
 	{
+		Active = false;
 		var balls = GameObject.FindGameObjectsWithTag("Ball");
-		foreach (var ball in balls)
-		{
-			if (ball.GetComponent<Rigidbody>().velocity.magnitude > 0.1f)
-			{
-				yield return new WaitForSeconds(0.1f);
-			}
-		}
+		Debug.Log($"Balls count: {balls.Length}");
+		yield return new WaitForSeconds(0.3f);
+		while (AreBallsMoving(balls))
+			yield return new WaitForSeconds(0.1f);
 
 		_currentPlayerIndex = (_currentPlayerIndex + 1) % _playerScores.Count;
 		UpdateTurn?.Invoke(_currentPlayerIndex + 1);
 		UpdateCurrentPlayerScore?.Invoke(_playerScores[_currentPlayerIndex]);
+		Active = true;
+	}
+
+	private static bool AreBallsMoving(GameObject[] balls)
+	{
+		foreach (var ball in balls)
+		{
+			if (ball == null)
+				continue;
+			var mag = ball.GetComponent<Rigidbody>().velocity.magnitude;
+			if (mag > 0.01f)
+			{
+				Debug.Log(ball.name + " is moving" + mag);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void ChangeTurn()
