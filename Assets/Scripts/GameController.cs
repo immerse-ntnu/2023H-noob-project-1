@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,8 +9,9 @@ public class GameController : MonoBehaviour
 {
 	public static GameController instance { get; private set; }
 
-	private int _currentPlayerIndex = 0;
+	private int _currentPlayerIndex;
 	private List<int> _playerScores = new() { 0, 0 };
+	private Rigidbody[] _ballBodies;
 	public event Action<int> UpdateCurrentPlayerScore;
 	public event Action<int> UpdateTurn;
     public bool Active {get; private set;}
@@ -21,9 +23,9 @@ public class GameController : MonoBehaviour
 
     private IEnumerator Start()
     {
-        // wait for 5 seconds
         yield return new WaitForSeconds(5f);
-        var balls = FindObjectsOfType<CubeScript>();
+		var balls = GameObject.FindGameObjectsWithTag("Ball");
+        _ballBodies = balls.Select(ball => ball.GetComponent<Rigidbody>()).ToArray();
         foreach (var ball in balls)
 	        if (ball.transform.position.y < -1)
 		        Destroy(ball.gameObject);
@@ -39,11 +41,9 @@ public class GameController : MonoBehaviour
 	private IEnumerator WaitForMovingBalls()
 	{
 		Active = false;
-		var balls = GameObject.FindGameObjectsWithTag("Ball");
-		Debug.Log($"Balls count: {balls.Length}");
 		yield return new WaitForSeconds(0.3f);
-		while (AreBallsMoving(balls))
-			yield return new WaitForSeconds(0.1f);
+		while (BallsAreMoving())
+			yield return new WaitForSeconds(0.15f);
 
 		_currentPlayerIndex = (_currentPlayerIndex + 1) % _playerScores.Count;
 		UpdateTurn?.Invoke(_currentPlayerIndex + 1);
@@ -51,18 +51,13 @@ public class GameController : MonoBehaviour
 		Active = true;
 	}
 
-	private static bool AreBallsMoving(GameObject[] balls)
+	private bool BallsAreMoving()
 	{
-		foreach (var ball in balls)
+		foreach (var ball in _ballBodies)
 		{
-			if (ball == null)
+			if (ball == null || ball.velocity.magnitude < 0.01f)
 				continue;
-			var mag = ball.GetComponent<Rigidbody>().velocity.magnitude;
-			if (mag > 0.01f)
-			{
-				Debug.Log(ball.name + " is moving" + mag);
-				return true;
-			}
+			return true;
 		}
 		return false;
 	}
